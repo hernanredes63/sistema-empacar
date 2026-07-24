@@ -47,17 +47,25 @@ const showingNavigationDropdown = ref(false);
                         <li class="px-6 py-2 mt-4 text-xs uppercase tracking-wider text-gray-400 font-semibold">
                             Gestión Comercial
                         </li>
-                        <li v-if="$page.props.auth.privilegios['Clientes']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Clientes</a>
+                       <li v-if="$page.props.auth.privilegios['Clientes']?.leer">
+                            <Link :href="route('clientes.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+                                Clientes
+                            </Link>
                         </li>
                         <li v-if="$page.props.auth.privilegios['Proveedores']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Proveedores</a>
+                           <Link :href="route('proveedores.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+                                Proveedores
+                            </Link>
                         </li>
                         <li v-if="$page.props.auth.privilegios['Categorias']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Categorías</a>
+                            <Link :href="route('categorias.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+                                Categorías
+                            </Link>
                         </li>
                         <li v-if="$page.props.auth.privilegios['Productos']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Productos</a>
+                            <Link :href="route('productos.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+                                Productos
+                            </Link>
                         </li>
                     </template>
 
