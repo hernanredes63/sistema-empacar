@@ -69,18 +69,21 @@ const showingNavigationDropdown = ref(false);
                         </li>
                     </template>
 
-                    <!-- INVENTARIO Y COMPRAS -->
-                    <template v-if="$page.props.auth.privilegios['Compras']?.leer || $page.props.auth.privilegios['Inventario']?.leer">
-                        <li class="px-6 py-2 mt-4 text-xs uppercase tracking-wider text-gray-400 font-semibold">
-                            Inventario
-                        </li>
-                        <li v-if="$page.props.auth.privilegios['Compras']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Solicitudes de Compra</a>
-                        </li>
-                        <li v-if="$page.props.auth.privilegios['Inventario']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Control de Inventario</a>
-                        </li>
-                    </template>
+                    <!-- COMPRAS E INVENTARIO -->
+<template v-if="$page.props.auth.privilegios['Compras']?.leer || $page.props.auth.privilegios['Inventario']?.leer">
+    <li class="px-6 py-2 mt-4 text-xs uppercase tracking-wider text-gray-400 font-semibold">
+        Compras e Inventario
+    </li>
+    <li v-if="$page.props.auth.privilegios['Compras']?.leer">
+        <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Solicitudes de Compra</a>
+    </li>
+    <li v-if="$page.props.auth.privilegios['Inventario']?.leer">
+        <!-- AQUÍ ESTÁ EL BOTÓN CORRECTO -->
+        <Link href="/inventarios" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+            Inventario
+        </Link>
+    </li>
+</template>
 
                     <!-- VENTAS Y PAGOS -->
                     <template v-if="$page.props.auth.privilegios['Ventas']?.leer || $page.props.auth.privilegios['Pagos']?.leer || $page.props.auth.privilegios['Plan de Pago']?.leer || $page.props.auth.privilegios['Cuotas']?.leer">

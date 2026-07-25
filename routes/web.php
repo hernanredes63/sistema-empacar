@@ -8,6 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\InventarioController;
 
 
 
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('proveedores', ProveedorController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::resource('productos', ProductoController::class);
+    Route::resource('inventarios', InventarioController::class);
 });
 
 require __DIR__.'/auth.php';
