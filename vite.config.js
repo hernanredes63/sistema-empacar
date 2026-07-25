@@ -18,14 +18,14 @@ export default defineConfig({
         }),
     ],
     server: {
-        host: '192.168.0.25', // Amarramos Vite a la IP de tu Ubuntu
+        host: '192.168.56.150', // Amarramos Vite a la IP de tu Ubuntu
         port: 5173,
         cors: true,
         watch: {
             usePolling: true, // Muy importante en VirtualBox
         },
         hmr: {
-            host: '192.168.0.25'
+            host: '192.168.56.150'
         }
     }
 });

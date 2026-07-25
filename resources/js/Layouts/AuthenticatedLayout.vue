@@ -69,14 +69,19 @@ const showingNavigationDropdown = ref(false);
                         </li>
                     </template>
 
-                    <!-- COMPRAS E INVENTARIO -->
+ <!-- COMPRAS E INVENTARIO -->
 <template v-if="$page.props.auth.privilegios['Compras']?.leer || $page.props.auth.privilegios['Inventario']?.leer">
     <li class="px-6 py-2 mt-4 text-xs uppercase tracking-wider text-gray-400 font-semibold">
         Compras e Inventario
     </li>
+    
+    <!-- ENLACE ACTUALIZADO -->
     <li v-if="$page.props.auth.privilegios['Compras']?.leer">
-        <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Solicitudes de Compra</a>
+        <Link :href="route('compras.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+            Solicitudes de Compra
+        </Link>
     </li>
+
     <li v-if="$page.props.auth.privilegios['Inventario']?.leer">
         <!-- AQUÍ ESTÁ EL BOTÓN CORRECTO -->
         <Link href="/inventarios" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
