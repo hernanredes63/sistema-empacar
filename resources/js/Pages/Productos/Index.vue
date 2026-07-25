@@ -68,7 +68,9 @@ defineProps({
                                     
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <Link :href="`/productos/${producto.id}/edit`" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</Link>
-                                        <button class="text-red-600 hover:text-red-900">Eliminar</button>
+                                        <Link :href="`/productos/${producto.id}`" method="delete" as="button" class="text-red-600 hover:text-red-900">
+                                            Eliminar
+                                        </Link>
                                     </td>
                                 </tr>
                             </tbody>
