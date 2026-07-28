@@ -51,7 +51,10 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <!-- Botón para ver detalles (Opcional para futuro) -->
-                                        <button class="text-blue-600 hover:underline mr-3">Detalles</button>
+                                        <!-- Botón para ver detalles conectado a la ruta show -->
+<Link :href="route('compras.show', compra.id)" class="text-blue-600 hover:underline font-medium mr-3">
+    Detalles
+</Link>
                                         
                                         <!-- Botón para anular/eliminar lógicamente -->
                                         <Link :href="route('compras.destroy', compra.id)" method="delete" as="button" class="text-red-600 hover:underline">

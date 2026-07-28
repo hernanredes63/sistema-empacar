@@ -126,16 +126,90 @@ class CompraController extends Controller
         }
     }
 
+
+/**
+     * Muestra los detalles de una solicitud de compra específica.
+     */
+    public function show($id)
+    {
+        // 1. Buscamos la cabecera de la compra junto con los datos de su proveedor
+        $compra = Compra::with('proveedor')->findOrFail($id);
+
+        // 2. Buscamos el detalle de los productos comprados. 
+        // Usamos un 'join' con la tabla productos para traer el código y el nombre.
+        $detalles = DetalleCompra::where('id_compra', $id)
+            ->join('productos', 'detalle_compras.id_producto', '=', 'productos.id')
+            ->select('detalle_compras.*', 'productos.codigo', 'productos.nombre')
+            ->get();
+
+        // 3. Renderizamos la vista enviando los datos a Vue.js a través de Inertia
+        return Inertia::render('Compras/Show', [
+            'compra' => $compra,
+            'detalles' => $detalles
+        ]);
+    }
+
+
+
+
+
+
+
+
+    
+
     /**
      * Elimina lógicamente una compra (Cambia state a 'i')
      */
+    /**
+     * Elimina lógicamente una compra y revierte el stock del inventario.
+     */
     public function destroy(Compra $compra)
     {
-        // Aplicando la eliminación lógica según requisitos (state = 'i')
-        $compra->state = 'i';
-        $compra->save();
+        try {
+            DB::transaction(function () use ($compra) {
+                
+                // 1. Eliminación lógica de la cabecera de la compra
+                $compra->state = 'i';
+                $compra->estado_compra = 'Anulada'; 
+                $compra->save();
 
-        return redirect()->route('compras.index')->with('success', 'Compra eliminada lógicamente.');
+                // 2. Traer todos los detalles asociados a esta compra
+                $detalles = DetalleCompra::where('id_compra', $compra->id)->get();
+
+                foreach ($detalles as $detalle) {
+                    
+                    // A. Eliminación lógica del detalle
+                    $detalle->state = 'i';
+                    $detalle->save();
+
+                    // B. Restar el stock en la tabla 'productos'
+                    $producto = Producto::find($detalle->id_producto);
+                    $producto->stock_actual -= $detalle->cantidad;
+                    $producto->save();
+
+                    // C. Registrar el movimiento de salida en 'inventarios' para mantener trazabilidad
+                    Inventario::create([
+                        'id_producto' => $detalle->id_producto,
+                        'tipo_movimiento' => 'salida',
+                        'cantidad' => $detalle->cantidad,
+                        'stock_actual' => $producto->stock_actual,
+                        'fecha_movimiento' => now(),
+                        'descripcion' => 'Salida por anulación de la compra #' . $compra->id,
+                        'origen_tipo' => 'anulacion_compra',
+                        'origen_id' => $compra->id,
+                        'state' => 'a'
+                    ]);
+                }
+            });
+
+            return redirect()->route('compras.index')
+                             ->with('success', 'Compra anulada y stock revertido correctamente.');
+
+        } catch (\Exception $e) {
+            // Si algo falla, revertimos y avisamos al usuario
+            return back()->with('error', 'Ocurrió un error al anular la compra: ' . $e->getMessage());
+        }
     }
 
     // Los métodos show, edit, update y destroy los puedes dejar vacíos por ahora

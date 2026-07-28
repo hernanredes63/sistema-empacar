@@ -16,6 +16,11 @@ class Producto extends Model
         'codigo',
         'nombre',
         'descripcion',
+        'precio_compra', // Agregado según diseño de BD
+        'precio_venta',  // Agregado según diseño de BD
+        'stock_actual',  // Agregado según diseño de BD
+        'stock_minimo',  // Agregado según diseño de BD
+        'imagen',        // Agregado según diseño de BD
         'state',
     ];
 
