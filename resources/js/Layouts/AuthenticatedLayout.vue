@@ -96,14 +96,18 @@ const showingNavigationDropdown = ref(false);
                             Ventas y Pagos
                         </li>
                         <li v-if="$page.props.auth.privilegios['Ventas']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Ventas</a>
-                        </li>
+    <Link :href="route('ventas.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+        Ventas
+    </Link>
+</li>
                         <li v-if="$page.props.auth.privilegios['Pagos']?.leer">
                             <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Pagos y QR</a>
                         </li>
                         <li v-if="$page.props.auth.privilegios['Plan de Pago']?.leer">
-                            <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Planes de Pago</a>
-                        </li>
+    <Link :href="route('plan_pagos.index')" class="block px-6 py-2 hover:bg-gray-700 transition-colors">
+        Planes de Pago
+    </Link>
+</li>
                         <li v-if="$page.props.auth.privilegios['Cuotas']?.leer">
                             <a href="#" class="block px-6 py-2 hover:bg-gray-700 transition-colors">Cuotas</a>
                         </li>

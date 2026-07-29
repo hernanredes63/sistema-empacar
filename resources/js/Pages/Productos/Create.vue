@@ -13,7 +13,10 @@ const form = useForm({
     nombre: '',
     id_categoria: '',
     descripcion: '',
-    state: true, // Activo por defecto
+    precio_compra: 0, // <-- Nueva variable
+    precio_venta: 0,  // <-- Nueva variable
+    stock_minimo: 0,  // <-- Nueva variable (opcional para alertas)
+    state: true
 });
 
 // Función para enviar el formulario
@@ -75,6 +78,34 @@ const submit = () => {
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
                             <div v-if="form.errors.descripcion" class="text-red-600 text-sm mt-1">{{ form.errors.descripcion }}</div>
                         </div>
+
+
+
+
+
+                           <!-- Precios -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Precio de Compra (Bs.)</label>
+        <input type="number" step="0.01" min="0" v-model="form.precio_compra" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Precio de Venta (Bs.)</label>
+        <input type="number" step="0.01" min="0" v-model="form.precio_venta" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+    </div>
+</div>
+
+<!-- Stock Mínimo -->
+<div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700">Stock Mínimo (Alerta de inventario)</label>
+    <input type="number" min="0" v-model="form.stock_minimo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+</div> 
+
+
+
+
+
+
 
                         <!-- Estado -->
                         <div class="mb-6 flex items-center">
