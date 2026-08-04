@@ -27,4 +27,13 @@ class Cliente extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+
+
+
+    // Método para obtener el nombre completo del cliente
+    public function nombreCompleto()
+    {
+        // Ajusta 'nombre' y 'apellido' según las columnas reales de tu tabla de clientes
+        return trim(($this->nombre ?? '') . ' ' . ($this->apellido ?? $this->apellidos ?? ''));
+    }
 }

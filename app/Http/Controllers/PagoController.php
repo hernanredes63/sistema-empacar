@@ -6,6 +6,9 @@ use App\Models\Cuota;
 use App\Services\PagoFacilService;
 use Illuminate\Http\Request;
 
+
+
+
 class PagoController extends Controller
 {
     protected $pagoFacilService;
@@ -21,29 +24,28 @@ class PagoController extends Controller
      */
     public function generarQrCuota(Cuota $cuota)
     {
-        // Cargamos la relación para obtener los datos del cliente
-        $cuota->load('planPago.venta.cliente');
-        $cliente = $cuota->planPago->venta->cliente;
+        try {
+            // El servicio hace toda la validación y genera el QR
+            $resultado = $this->pagoFacilService->generarQrParaCuota($cuota);
 
-        // Llamamos al servicio
-        $resultado = $this->pagoFacilService->generarQr($cuota, $cliente);
-
-        if ($resultado['success']) {
             // Guardamos el ID de transacción de PagoFácil en la cuota para futuras consultas
             $cuota->update([
-                'pagofacil_transaction_id' => $resultado['transactionId']
+                'pagofacil_transaction_id' => $resultado['transactionId'] ?? null
             ]);
 
             return response()->json([
                 'success' => true,
-                'qrImage' => $resultado['qrImage']
+                'qrImage' => $resultado['qrBase64'] ?? null, // Base64 directo para mostrar en el `<img>`
+                'transaction_id' => $resultado['transactionId'] ?? null
             ]);
-        }
 
-        return response()->json([
-            'success' => false,
-            'message' => $resultado['message']
-        ], 500);
+        } catch (\Exception $e) {
+            // Si el servicio falla (ej. credenciales malas), atrapamos el error aquí
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

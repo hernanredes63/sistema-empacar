@@ -25,4 +25,26 @@ class Cuota extends Model
     {
         return $this->belongsTo(PlanPago::class, 'id_plan_pago');
     }
+
+    // Relación indirecta: Una cuota pertenece a una Venta a través del Plan de Pago
+    public function venta()
+    {
+        return $this->hasOneThrough(
+            Venta::class,
+            PlanPago::class,
+            'id',
+            'id',
+            'id_plan_pago',
+            'id_venta'
+        );
+    }
+
+    // --- AGREGA ESTO AQUÍ ---
+    public function saldo()
+    {
+        if ($this->estado_cuota === 'pagada') {
+            return 0.0;
+        }
+        return (float) $this->monto;
+    }
 }

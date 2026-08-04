@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+
+    'pagofacil' => [
+        'base_url' => env('PAGOFACIL_API_URL', 'https://masterqr.pagofacil.com.bo/api/services/v2'),
+        'service_token' => env('PAGOFACIL_TOKEN_SERVICE'),
+        'secret_token' => env('PAGOFACIL_TOKEN_SECRET'),
+        'monto_prueba' => env('PAGOFACIL_MONTO_PRUEBA', 0.01),
+        'callback_url' => env('PAGOFACIL_CALLBACK_URL'),
+        'webhook_secret' => env('PAGOFACIL_WEBHOOK_SECRET'),
+        'payment_method' => env('PAGOFACIL_PAYMENT_METHOD', 'auto'),
+        'cache_segundos' => env('PAGOFACIL_CACHE_SEGUNDOS', 600),
+    ],
+
 ];
